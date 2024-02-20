@@ -1,5 +1,19 @@
 import os
-import subprocess
+import readline
+
+# 设置自动补全
+def completer(text, state):
+    current_directory = os.getcwd()
+    os.chdir(current_directory)
+    os.listdir('.')
+    options = [i for i in os.listdir('.') if i.startswith(text)]
+    if state < len(options):
+        return options[state]
+    else:
+        return None
+
+readline.set_completer(completer)
+readline.parse_and_bind("tab: complete")
 
 def list_files(directory):
     """列出指定目录下的所有文件和文件夹"""
@@ -25,27 +39,22 @@ def open_file(file_path):
     """使用默认应用程序打开指定文件"""
     if os.path.exists(file_path):
         if os.path.isfile(file_path):
-            if os.name == 'nt':  # Windows系统
-                os.startfile(file_path)
-            else:
-                subprocess.Popen(['xdg-open', file_path])  # 其他系统
+            os.startfile(file_path) if os.name == 'nt' else os.system('xdg-open ' + file_path)
             print("File", file_path, "opened successfully.")
         else:
             print("Not a valid file.")
     else:
         print("File", file_path, "does not exist.")
 
-def change_directory(current_directory, new_directory):
+def change_directory(directory):
     """改变当前工作目录"""
     try:
-        os.chdir(new_directory)
-        print("Directory changed to", new_directory)
-        return new_directory
+        os.chdir(directory)
+        print("Directory changed to", directory)
     except FileNotFoundError:
-        print("Directory", new_directory, "does not exist.")
+        print("Directory", directory, "does not exist.")
     except PermissionError:
-        print("Permission denied to access", new_directory)
-    return current_directory
+        print("Permission denied to access", directory)
 
 def main():
     current_directory = os.getcwd()
@@ -77,7 +86,8 @@ def main():
             if new_directory == "cd":  # 返回根目录
                 current_directory = os.getcwd()
             else:
-                current_directory = change_directory(current_directory, new_directory)
+                change_directory(new_directory)
+                current_directory = os.getcwd()
         elif choice == '6':
             print("Exiting...")
             break
