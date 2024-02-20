@@ -35,15 +35,17 @@ def open_file(file_path):
     else:
         print("File", file_path, "does not exist.")
 
-def change_directory(directory):
+def change_directory(current_directory, new_directory):
     """改变当前工作目录"""
     try:
-        os.chdir(directory)
-        print("Directory changed to", directory)
+        os.chdir(new_directory)
+        print("Directory changed to", new_directory)
+        return new_directory
     except FileNotFoundError:
-        print("Directory", directory, "does not exist.")
+        print("Directory", new_directory, "does not exist.")
     except PermissionError:
-        print("Permission denied to access", directory)
+        print("Permission denied to access", new_directory)
+    return current_directory
 
 def main():
     current_directory = os.getcwd()
@@ -75,8 +77,7 @@ def main():
             if new_directory == "cd":  # 返回根目录
                 current_directory = os.getcwd()
             else:
-                change_directory(new_directory)
-                current_directory = os.getcwd()
+                current_directory = change_directory(current_directory, new_directory)
         elif choice == '6':
             print("Exiting...")
             break
