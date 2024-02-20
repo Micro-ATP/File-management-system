@@ -3,6 +3,7 @@ import directory_operations
 import file_operations
 import file_list
 import whereis
+import fetch_soft
 
 def main():
     # 设置默认路径为 "C:\\"
@@ -64,6 +65,16 @@ ossyNMMMNyMMhsssssssssssssshmmmhssssssso   CPU: 14th Gen Intel(R) Core(TM) i9-14
         `:+ssssssssssssssssss+:`
             .-/+oossssoo+/-.
                   """)
+        elif choice == 'fetchsoft':
+            installed_software = fetch_soft.get_installed_software()
+            if installed_software is not None:
+                print("Installed software:")
+                for software in installed_software:
+                    print(software)
+
+            else:
+                print("Failed to retrieve the number of installed software.")
+
         elif choice.lower() == 'exit' or choice.lower() == 'quit':
             print("Exiting...")
             break
