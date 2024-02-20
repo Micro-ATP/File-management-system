@@ -16,6 +16,8 @@ def help_log():
             unsoft <software_name> - Uninstall a software
             clear - Clear the screen
             diskpart - Open diskpart
+            chkssd - Check SSD health
             quit - Exit the shell
             exit - Exit the shell
+            help - Display this help message
             """)
