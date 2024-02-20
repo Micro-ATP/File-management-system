@@ -9,6 +9,7 @@ import help
 import clear
 import diskpart
 import everything
+import chkssd
 
 def main():
     # 设置默认路径为 "C:\\"
@@ -94,6 +95,8 @@ ossyNMMMNyMMhsssssssssssssshmmmhssssssso   CPU: 14th Gen Intel(R) Core(TM) i9-14
             print("Total results:", len(search_results))
             for i, result in enumerate(search_results[:5], 1):
                 print(f"{i}. Name: {result['name']}, Path: {result['path']}")
+        elif choice == 'chkssd':
+            chkssd.open_urwtest_v18()
         elif choice.lower() == 'exit' or choice.lower() == 'quit':
             print("Exiting...")
             break
