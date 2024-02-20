@@ -2,21 +2,16 @@ import os
 import directory_operations
 import file_operations
 import file_list
+import whereis
 
 def main():
-    current_directory = os.getcwd()
     while True:
-        print("\nSimple File Management System")
-        print("Current directory:", current_directory)
-        print("1. List files")
-        print("2. Create file")
-        print("3. Delete file")
-        print("4. Open file")
-        print("5. Change directory")
-        print("6. Exit")
+        current_directory = os.getcwd()
+        prompt = f"atp@ATP_Shell ~{current_directory} ~> "
+        print("Welcome to ATP_Shell, the friendly interactive shell")
+        print("Type help for instructions on how to use ATP_Shell")
 
-        choice = input("Enter your choice: ")
-
+        choice = input(prompt)
         if choice == '1':
             file_list.list_files(current_directory)
         elif choice.lower() == 'ls':
@@ -30,13 +25,24 @@ def main():
         elif choice == '4':
             file_path = input("Enter file path to open: ")
             file_operations.open_file(file_path)
-        elif choice == '5':
-            new_directory = input("Enter directory path: ")
-            if new_directory == "cd":  # 如果输入为单独的 "cd"
-                new_directory = "C:\\"  # 将目录设置为 "C:\"
+        elif choice.startswith('cd '):  # 用户输入以 "cd " 开头
+            new_directory = choice[3:]  # 提取路径
             directory_operations.change_directory(new_directory)
             current_directory = os.getcwd()  # 更新当前目录
-        elif choice == '6':
+        elif choice == 'cd':  # 如果用户只输入 "cd"
+            new_directory = "C:\\"  # 默认将目录更改为 "C:\"
+            directory_operations.change_directory(new_directory)
+            current_directory = os.getcwd()  # 更新当前目录
+        elif choice.startswith('whereis '):
+            target_name = choice[8:]  # 提取文件名
+            search_results = whereis.global_search(target_name)  # 调用 whereis 模块的全局搜索功能
+            if search_results:
+                print("Search results:")
+                for result in search_results:
+                    print(result)
+            else:
+                print("No matching files found.")
+        elif choice == '0' or choice.lower() == 'exit' or choice.lower() == 'quit':
             print("Exiting...")
             break
         else:
