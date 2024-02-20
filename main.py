@@ -97,6 +97,8 @@ def main():
 
         if choice == '1':
             list_files(current_directory)
+        elif choice.lower() == 'ls':
+            list_files(current_directory)
         elif choice == '2':
             file_path = input("Enter file path to create: ")
             create_file(file_path)
