@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "help.h": "c",
+        "file_list.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "enabled"
+}

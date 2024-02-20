@@ -1,77 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
-// 定义文件结构体
-typedef struct File {
-    char name[256];
-    char path[512];
-} File;
+// 导入头文件
+// #include "directory_operations.h"
+// #include "file_operations.h"
+#include "E:\\GitHub\\File-management-system\\C\\file_list.h"
+// #include "whereis.h"
+// #include "fetch_soft.h"
+// #include "uninstall_soft.h"
+#include "E:\\GitHub\\File-management-system\\C\\help.h"
+// #include "clear.h"
+// #include "diskpart.h"
+// #include "everything.h"
+// #include "chkssd.h"
 
-// 列出当前目录下的文件
-void list_files(const char *current_directory) {
-    printf("Listing files in directory: %s\n", current_directory);
-    // 在这里实现列出文件的逻辑
-}
-
-// 创建文件
-void create_file(const char *file_path) {
-    printf("Creating file: %s\n", file_path);
-    // 在这里实现创建文件的逻辑
-}
-
-// 删除文件
-void delete_file(const char *file_path) {
-    printf("Deleting file: %s\n", file_path);
-    // 在这里实现删除文件的逻辑
-}
-
-// 打开文件
-void open_file(const char *file_path) {
-    printf("Opening file: %s\n", file_path);
-    // 在这里实现打开文件的逻辑
-}
-
-// 改变目录
-void change_directory(const char *new_directory) {
-    printf("Changing directory to: %s\n", new_directory);
-    // 在这里实现改变目录的逻辑
-}
-
-// 全局搜索文件
-void global_search(const char *target_name) {
-    printf("Searching for file: %s\n", target_name);
-    // 在这里实现全局搜索文件的逻辑
-}
-
-// 获取已安装软件列表
-void get_installed_software() {
-    printf("Fetching installed software\n");
-    // 在这里实现获取已安装软件列表的逻辑
-}
-
-// 卸载软件
-void uninstall_software(const char *software_name) {
-    printf("Uninstalling software: %s\n", software_name);
-    // 在这里实现卸载软件的逻辑
-}
-
-// 测试磁盘速度
-void test_disk_speed(const char *disk_drive, char verify) {
-    printf("Testing disk speed on drive: %s\n", disk_drive);
-    printf("Write data to disk and verify: %s\n", verify == 'Y' ? "Yes" : "No");
-    // 在这里实现测试磁盘速度的逻辑
-}
 
 // 主函数
 int main() {
     // 设置默认路径为 "C:\\"
-    const char *current_directory = "C:\\";
+    chdir("C:\\");
+
     printf("Welcome to ATP_Shell, the friendly interactive shell\n");
     printf("Type help for instructions on how to use ATP_Shell\n");
 
     char choice[256];
+    char current_directory[512];
     while (1) {
+        getcwd(current_directory, sizeof(current_directory));
         printf("atp@ATP_Shell ~%s ~> ", current_directory);
         fgets(choice, sizeof(choice), stdin);
         choice[strcspn(choice, "\n")] = '\0';  // 移除换行符
@@ -79,36 +36,75 @@ int main() {
         if (strcmp(choice, "ls") == 0) {
             list_files(current_directory);
         } else if (strncmp(choice, "touch ", 6) == 0) {
-            create_file(choice + 6);
+            char file_path[512];
+            strcpy(file_path, choice + 6);
+            create_file(file_path);
         } else if (strncmp(choice, "rm -f ", 6) == 0) {
-            delete_file(choice + 6);
+            char file_path[512];
+            strcpy(file_path, choice + 6);
+            delete_file(file_path);
         } else if (strncmp(choice, "open ", 5) == 0) {
-            open_file(choice + 5);
+            char file_path[512];
+            strcpy(file_path, choice + 5);
+            open_file(file_path);
         } else if (strncmp(choice, "cd ", 3) == 0) {
-            change_directory(choice + 3);
-        } else if (strcmp(choice, "whereis") == 0) {
+            char new_directory[512];
+            strcpy(new_directory, choice + 3);
+            change_directory(new_directory);
+            getcwd(current_directory, sizeof(current_directory));  // 更新当前目录
+        } else if (strcmp(choice, "cd") == 0) {
+            char new_directory[] = "C:\\";
+            change_directory(new_directory);
+            getcwd(current_directory, sizeof(current_directory));  // 更新当前目录
+        } else if (strncmp(choice, "whereis ", 8) == 0) {
             char target_name[256];
-            printf("Enter file name: ");
-            fgets(target_name, sizeof(target_name), stdin);
-            target_name[strcspn(target_name, "\n")] = '\0';  // 移除换行符
+            strcpy(target_name, choice + 8);
             global_search(target_name);
+        } else if (strcmp(choice, "neofetch") == 0) {
+printf("             .-/+oossssoo+/-.              atp@ATP_Shell\n");
+printf("        `:+ssssssssssssssssss+:`           -----------\n");
+printf("      -+ssssssssssssssssssyyssss+-         OS: Microsoft Windows 11 专业版 64 位\n");
+printf("    .ossssssssssssssssssdMMMNysssso.       Kernel: 10.0.22631\n");
+printf("   /ssssssssssshdmmNNmmyNMMMMhssssss/      Uptime: 11d 4h 51m 4s\n");
+printf("  +ssssssssshmydMMMMMMMNddddyssssssss+     Motherboard: ROG MAXIMUS Z790 FORMULA D5\n");
+printf(" /sssssssshNMMMyhhyyyyhmNMMMNhssssssss/    Shell: ATP_Shell\n");
+printf(".ssssssssdMMMNhsssssssssshNMMMdssssssss.   Packages: 991 (dpkg), 6 (snap)\n");
+printf("+sssshhhyNMMNyssssssssssssyNMMMysssssss+   Resolution: 7680 x 4320\n");
+printf("ossyNMMMNyMMhsssssssssssssshmmmhssssssso   Font: Segoe UI\n");
+printf("ossyNMMMNyMMhsssssssssssssshmmmhssssssso   CPU: 14th Gen Intel(R) Core(TM) i9-14900KS\n");
+printf("+sssshhhyNMMNyssssssssssssyNMMMysssssss+   GPU: NVIDIA RTX™ 6000 Ada\n");
+printf(" /sssssssshNMMMyhhyyyyhdNMMMNhssssssss/    RAM: 130,944MB / 25038 MB (19%%)\n");
+printf("  +sssssssssdmydMMMMMMMMddddyssssssss+     Disk C: 330GB / 4,096GB (8%%)\n");
+printf("   /ssssssssssshdmNNNNmyNMMMMhssssss/      Disk D: 1609GB / 4,096GB (39%%)\n");
+printf("    .ossssssssssssssssssdMMMNysssso.\n");
+printf("      -+sssssssssssssssssyyyssss+-\n");
+printf("        `:+ssssssssssssssssss+:-\n");
+printf("            .-/+oossssoo+/-.\n");
+
+
         } else if (strcmp(choice, "fetchsoft") == 0) {
             get_installed_software();
         } else if (strncmp(choice, "unsoft ", 7) == 0) {
-            uninstall_software(choice + 7);
-        } else if (strncmp(choice, "chkssd ", 7) == 0) {
-            char disk_drive[2];
-            char verify;
-            printf("Enter disk drive (e.g., C): ");
-            scanf("%s", disk_drive);
-            printf("Write data to disk and verify? [Y/N]: ");
-            scanf(" %c", &verify);
-            test_disk_speed(disk_drive, verify);
+            char software_name[256];
+            strcpy(software_name, choice + 7);
+            uninstall_software(software_name);
+        } else if (strcmp(choice, "help") == 0) {
+            help_log();
+        } else if (strcmp(choice, "clear") == 0) {
+            clear_screen();
+        } else if (strcmp(choice, "diskpart") == 0) {
+            open_diskpart_with_admin();
+        } else if (strncmp(choice, "everything ", 11) == 0) {
+            char keyword[256];
+            strcpy(keyword, choice + 11);
+            search_files(keyword);
+        } else if (strcmp(choice, "chkssd") == 0) {
+            open_urwtest_v18();
         } else if (strcmp(choice, "exit") == 0 || strcmp(choice, "quit") == 0) {
             printf("Exiting...\n");
             break;
         } else {
-            printf("Invalid choice. Please enter a valid option.\n");
+            printf("Invalid choice. Please enter a valid option. If you need help, type 'help' and press Enter.\n");
         }
     }
 
