@@ -1,5 +1,8 @@
 import os
+import datetime
 import readline
+import sys
+import stat
 
 # 设置自动补全
 def completer(text, state):
@@ -12,14 +15,22 @@ def completer(text, state):
     else:
         return None
 
-readline.set_completer(completer)
-readline.parse_and_bind("tab: complete")
+if sys.stdin.isatty():  # 检查是否在交互式环境中
+    readline.set_completer(completer)
+    readline.parse_and_bind("tab: complete")
 
+# 列出文件详细信息
 def list_files(directory):
-    """列出指定目录下的所有文件和文件夹"""
+    """列出指定目录下的所有文件和文件夹的详细信息"""
     print("Files and folders in", directory)
     for item in os.listdir(directory):
-        print(item)
+        item_path = os.path.join(directory, item)
+        stat_info = os.stat(item_path)
+        size = stat_info.st_size
+        permissions = stat.filemode(stat_info.st_mode)
+        modification_time = datetime.datetime.fromtimestamp(stat_info.st_mtime)
+        print("{:<30} {:<10} {:<10} {:<30}".format(item, size, permissions, modification_time))
+
 
 def create_file(file_path):
     """创建一个新文件"""
