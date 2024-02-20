@@ -10,9 +10,12 @@ def help_log():
             open <file_name> - Open a file
             cd <directory> - Change the current directory
             whereis <file_name> - Search for a file
+            everything <file_name>- Search for files using Everything
             neofetch - Display system information
             fetchsoft - List all installed software
             unsoft <software_name> - Uninstall a software
-            exit - Exit the shell
+            clear - Clear the screen
+            diskpart - Open diskpart
             quit - Exit the shell
+            exit - Exit the shell
             """)
