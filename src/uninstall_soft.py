@@ -8,5 +8,4 @@ def uninstall_software(software_name):
     except subprocess.CalledProcessError as e:
         print(f"Failed to uninstall {software_name}. Error: {e}")
 
-# 调用示例
-uninstall_software("YourSoftwareName")
+

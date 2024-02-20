@@ -4,6 +4,8 @@ import file_operations
 import file_list
 import whereis
 import fetch_soft
+import uninstall_soft
+import help
 
 def main():
     # 设置默认路径为 "C:\\"
@@ -73,7 +75,11 @@ ossyNMMMNyMMhsssssssssssssshmmmhssssssso   CPU: 14th Gen Intel(R) Core(TM) i9-14
                     print(software)
             else:
                 print("Failed to retrieve the number of installed software.")
-
+        elif choice.startswith('unsoft '):
+            software_name = choice[7:]  # 提取软件名称
+            uninstall_soft.uninstall_software(software_name)
+        elif choice == 'help':
+            help.help_log()
         elif choice.lower() == 'exit' or choice.lower() == 'quit':
             print("Exiting...")
             break
