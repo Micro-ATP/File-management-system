@@ -8,6 +8,7 @@ import uninstall_soft
 import help
 import clear
 import diskpart
+import everything
 
 def main():
     # 设置默认路径为 "C:\\"
@@ -86,6 +87,13 @@ ossyNMMMNyMMhsssssssssssssshmmmhssssssso   CPU: 14th Gen Intel(R) Core(TM) i9-14
             clear.clear_screen()
         elif choice == 'diskpart':
             diskpart.open_diskpart_with_admin()
+        elif choice.startswith('everything '):
+            keyword = choice[11:]  # 提取搜索关键词
+            search_results = everything.search_files(keyword)
+            print("Everything search results:")
+            print("Total results:", len(search_results))
+            for i, result in enumerate(search_results[:5], 1):
+                print(f"{i}. Name: {result['name']}, Path: {result['path']}")
         elif choice.lower() == 'exit' or choice.lower() == 'quit':
             print("Exiting...")
             break
