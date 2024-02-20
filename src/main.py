@@ -23,8 +23,8 @@ def main():
         elif choice.startswith('rm -f '):
             file_path = choice[6:]
             file_operations.delete_file(file_path)
-        elif choice == '4':
-            file_path = input("Enter file path to open: ")
+        elif choice.startswith('open '):
+            file_path = choice[5:]
             file_operations.open_file(file_path)
         elif choice.startswith('cd '):  # 用户输入以 "cd " 开头
             new_directory = choice[3:]  # 提取路径
