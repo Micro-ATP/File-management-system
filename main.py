@@ -108,11 +108,10 @@ def main():
             open_file(file_path)
         elif choice == '5':
             new_directory = input("Enter directory path: ")
-            if new_directory == "cd":  # 返回根目录
-                current_directory = os.getcwd()
-            else:
-                change_directory(new_directory)
-                current_directory = os.getcwd()
+            if new_directory == "cd":  # 如果输入为单独的 "cd"
+                new_directory = "C:\\"  # 将目录设置为 "C:\"
+            change_directory(new_directory)
+            current_directory = os.getcwd()  # 更新当前目录
         elif choice == '6':
             print("Exiting...")
             break
