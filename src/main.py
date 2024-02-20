@@ -71,7 +71,6 @@ ossyNMMMNyMMhsssssssssssssshmmmhssssssso   CPU: 14th Gen Intel(R) Core(TM) i9-14
                 print("Installed software:")
                 for software in installed_software:
                     print(software)
-
             else:
                 print("Failed to retrieve the number of installed software.")
 
@@ -79,7 +78,7 @@ ossyNMMMNyMMhsssssssssssssshmmmhssssssso   CPU: 14th Gen Intel(R) Core(TM) i9-14
             print("Exiting...")
             break
         else:
-            print("Invalid choice. Please enter a valid option.")
+            print("Invalid choice. Please enter a valid option. If you need help, type 'help' and press Enter.")
 
 if __name__ == "__main__":
     main()
