@@ -5,6 +5,9 @@ import file_list
 import whereis
 
 def main():
+    # 设置默认路径为 "C:\\"
+    os.chdir("C:\\")
+    
     while True:
         current_directory = os.getcwd()
         prompt = f"atp@ATP_Shell ~{current_directory} ~> "
