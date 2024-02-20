@@ -10,10 +10,12 @@ import clear
 import diskpart
 import everything
 import chkssd
+import readline
 
 def main():
     # 设置默认路径为 "C:\\"
     os.chdir("C:\\")
+    readline.parse_and_bind('tab: complete')
     print("Welcome to ATP_Shell, the friendly interactive shell")
     print("Type help for instructions on how to use ATP_Shell")
     
