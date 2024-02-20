@@ -7,13 +7,12 @@ import whereis
 def main():
     # 设置默认路径为 "C:\\"
     os.chdir("C:\\")
+    print("Welcome to ATP_Shell, the friendly interactive shell")
+    print("Type help for instructions on how to use ATP_Shell")
     
     while True:
         current_directory = os.getcwd()
         prompt = f"atp@ATP_Shell ~{current_directory} ~> "
-        print("Welcome to ATP_Shell, the friendly interactive shell")
-        print("Type help for instructions on how to use ATP_Shell")
-
         choice = input(prompt)
         if choice.lower() == 'ls':
             file_list.list_files(current_directory)
