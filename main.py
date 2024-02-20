@@ -19,17 +19,31 @@ if sys.stdin.isatty():  # 检查是否在交互式环境中
     readline.set_completer(completer)
     readline.parse_and_bind("tab: complete")
 
+# 转换文件大小为适当的单位
+def convert_size(size):
+    if size < 1024:
+        return f"{size} B"
+    elif size < 1024 * 1024:
+        return f"{size / 1024:.2f} KB"
+    elif size < 1024 * 1024 * 1024:
+        return f"{size / (1024 * 1024):.2f} MB"
+    else:
+        return f"{size / (1024 * 1024 * 1024):.2f} GB"
+
 # 列出文件详细信息
 def list_files(directory):
     """列出指定目录下的所有文件和文件夹的详细信息"""
-    print("Files and folders in", directory)
+    print("{:<30} {:<15} {:<10} {:<30}".format("Name", "Size", "Permissions", "Modification Time"))
+    print("=" * 80)  # 添加分隔线
     for item in os.listdir(directory):
         item_path = os.path.join(directory, item)
         stat_info = os.stat(item_path)
-        size = stat_info.st_size
+        size = convert_size(stat_info.st_size)
         permissions = stat.filemode(stat_info.st_mode)
         modification_time = datetime.datetime.fromtimestamp(stat_info.st_mtime)
-        print("{:<30} {:<10} {:<10} {:<30}".format(item, size, permissions, modification_time))
+        print("{:<30} {:<15} {:<10} {:<30}".format(item, size, permissions, modification_time))
+
+# 其他函数和主程序部分...
 
 
 def create_file(file_path):
