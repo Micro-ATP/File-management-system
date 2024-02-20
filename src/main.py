@@ -2,7 +2,6 @@ import os
 import directory_operations
 import file_operations
 import file_list
-import file_utils
 
 def main():
     current_directory = os.getcwd()
