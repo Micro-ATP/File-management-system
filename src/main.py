@@ -12,15 +12,13 @@ def main():
         print("Type help for instructions on how to use ATP_Shell")
 
         choice = input(prompt)
-        if choice == '1':
+        if choice.lower() == 'ls':
             file_list.list_files(current_directory)
-        elif choice.lower() == 'ls':
-            file_list.list_files(current_directory)
-        elif choice == '2':
-            file_path = input("Enter file path to create: ")
+        elif choice.startswith('touch '):
+            file_path = choice[6:]
             file_operations.create_file(file_path)
-        elif choice == '3':
-            file_path = input("Enter file path to delete: ")
+        elif choice.startswith('rm -f '):
+            file_path = choice[6:]
             file_operations.delete_file(file_path)
         elif choice == '4':
             file_path = input("Enter file path to open: ")
@@ -42,7 +40,29 @@ def main():
                     print(result)
             else:
                 print("No matching files found.")
-        elif choice == '0' or choice.lower() == 'exit' or choice.lower() == 'quit':
+        elif choice == 'neofetch':
+            print("""
+             .-/+oossssoo+/-.               atp@ATP_Shell
+        `:+ssssssssssssssssss+:`           -----------
+      -+ssssssssssssssssssyyssss+-         OS: Microsoft Windows 11 专业版 64 位
+    .ossssssssssssssssssdMMMNysssso.       Kernel: 10.0.22631
+   /ssssssssssshdmmNNmmyNMMMMhssssss/      Uptime: 11d 4h 51m 4s
+  +ssssssssshmydMMMMMMMNddddyssssssss+     Motherboard: ROG MAXIMUS Z790 FORMULA D5
+ /sssssssshNMMMyhhyyyyhmNMMMNhssssssss/    Shell: ATP_Shell 
+.ssssssssdMMMNhsssssssssshNMMMdssssssss.   Packages: 991 (dpkg), 6 (snap)
++sssshhhyNMMNyssssssssssssyNMMMysssssss+   Resolution: 7680 x 4320
+ossyNMMMNyMMhsssssssssssssshmmmhssssssso   Font: Segoe UI
+ossyNMMMNyMMhsssssssssssssshmmmhssssssso   CPU: 14th Gen Intel(R) Core(TM) i9-14900KS
++sssshhhyNMMNyssssssssssssyNMMMysssssss+   GPU: NVIDIA RTX™ 6000 Ada
+ /sssssssshNMMMyhhyyyyhdNMMMNhssssssss/    RAM: 130,944MB / 25038 MB (19%)
+  +sssssssssdmydMMMMMMMMddddyssssssss+     Disk C: 330GB / 4,096GB (8%)
+   /ssssssssssshdmNNNNmyNMMMMhssssss/      Disk D: 1609GB / 4,096GB (39%)
+    .ossssssssssssssssssdMMMNysssso.
+      -+sssssssssssssssssyyyssss+-
+        `:+ssssssssssssssssss+:`
+            .-/+oossssoo+/-.
+                  """)
+        elif choice.lower() == 'exit' or choice.lower() == 'quit':
             print("Exiting...")
             break
         else:
