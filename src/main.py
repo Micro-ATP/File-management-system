@@ -6,6 +6,8 @@ import whereis
 import fetch_soft
 import uninstall_soft
 import help
+import clear
+import diskpart
 
 def main():
     # 设置默认路径为 "C:\\"
@@ -80,6 +82,10 @@ ossyNMMMNyMMhsssssssssssssshmmmhssssssso   CPU: 14th Gen Intel(R) Core(TM) i9-14
             uninstall_soft.uninstall_software(software_name)
         elif choice == 'help':
             help.help_log()
+        elif choice.lower() == 'clear':
+            clear.clear_screen()
+        elif choice == 'diskpart':
+            diskpart.open_diskpart_with_admin()
         elif choice.lower() == 'exit' or choice.lower() == 'quit':
             print("Exiting...")
             break
