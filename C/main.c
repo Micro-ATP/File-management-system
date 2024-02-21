@@ -11,6 +11,9 @@ void deleteFile(char *filename);
 void listFiles();
 void openFile(char *filename);
 void changeDirectory(char *newDirectory);
+void searchFiles(char *target_name);
+
+void global_search(char *target_name, char *directory);
 
 void createFile(char *filename) {
     FILE *file = fopen(filename, "w");
@@ -105,6 +108,46 @@ void changeDirectory(char *newDirectory) {
     }
 }
 
+// void searchFiles(char *target_name) {
+//     char current_directory[MAX_PATH];
+//     GetCurrentDirectory(MAX_PATH, current_directory);
+//     printf("Search results:\n");
+//     global_search(target_name, current_directory);
+// }
+
+// void global_search(char *target_name, char *directory) {
+//     WIN32_FIND_DATA findData;
+//     HANDLE hFind = INVALID_HANDLE_VALUE;
+//     TCHAR searchPath[MAX_PATH];
+
+//     strcpy_s(searchPath, MAX_PATH, directory);
+//     strcat_s(searchPath, MAX_PATH, "\\*.*");
+
+//     hFind = FindFirstFile(searchPath, &findData);
+//     if (hFind == INVALID_HANDLE_VALUE) {
+//         printf("Error: Unable to find files.\n");
+//         return;
+//     }
+
+//     do {
+//         if (strcmp(findData.cFileName, ".") != 0 && strcmp(findData.cFileName, "..") != 0) {
+//             char full_path[MAX_PATH];
+//             strcpy_s(full_path, MAX_PATH, directory);
+//             strcat_s(full_path, MAX_PATH, "\\");
+//             strcat_s(full_path, MAX_PATH, findData.cFileName);
+
+//             if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+//                 global_search(target_name, full_path); // Recursive call for subdirectories
+//             }
+//             else if (strstr(findData.cFileName, target_name) != NULL) {
+//                 printf("%s\n", full_path); // Print path if target name is found
+//             }
+//         }
+//     } while (FindNextFile(hFind, &findData) != 0);
+
+//     FindClose(hFind);
+// }
+
 int main() {
     char filename[50];
     int choice;
@@ -114,7 +157,8 @@ int main() {
     char openCommand[256]; // Buffer for storing open command and its arguments
     char rmCommand[256]; // Buffer for storing rm command and its arguments
     char tchCommand[256]; // Buffer for storing touch command and its arguments
-    
+    char wheisCommand[256];
+
     char current_directory[MAX_PATH] = "C:\\"; // Set the current directory to "C:\"
 
     SetCurrentDirectory(current_directory); // Set the current directory
@@ -123,10 +167,18 @@ int main() {
     printf("Type help for instructions on how to use ATP_Shell\n");
 
     while (1) {
-        GetCurrentDirectory(MAX_PATH, current_directory); // Get the current directory
-        printf("atp@ATP_Shell ~ %s ~> ", current_directory); // Print the prompt including the current directory
-        fgets(command, sizeof(command), stdin); // Read the command line from standard input
+        GetCurrentDirectory(MAX_PATH, current_directory);
+        printf("atp@ATP_Shell ~ %s ~> ", current_directory);
+        
+        // 读取命令
+        fgets(command, sizeof(command), stdin);
 
+        // 去除命令末尾的换行符
+        size_t command_len = strlen(command);
+        if (command[command_len - 1] == '\n') {
+            command[command_len - 1] = '\0';
+        }
+        
         // Check the user input command
         if (strcmp(command, "cd\n") == 0) {
             // If the user input is just "cd" command, then change directory to "C:\"
@@ -149,6 +201,8 @@ int main() {
             neofetch_opt(); // If the user input is "neofetch" command, then display system information
         } else if (sscanf(command, "touch %s", tchCommand) == 1) {
             createFile(tchCommand);
+        // } else if (sscanf(command, "whereis %s", wheisCommand) == 1) {
+        //     searchFiles(wheisCommand);
         } else {
             // If the user input is not cd, cd xxx, ls, help, open, or rm command, then proceed with the original flow
             sscanf(command, "%d", &choice);
