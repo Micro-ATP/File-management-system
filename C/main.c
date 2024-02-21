@@ -8,12 +8,7 @@ void writeFile(char *filename);
 void deleteFile(char *filename);
 void listFiles();
 void openFile(char *filename);
-
-void changeDirectory(char *newDirectory) {
-    if (SetCurrentDirectory(newDirectory) == 0) {
-        printf("Error: Unable to change directory.\n");
-    }
-}
+void changeDirectory(char *newDirectory);
 
 void createFile(char *filename) {
     FILE *file = fopen(filename, "w");
@@ -80,27 +75,16 @@ void listFiles() {
         return;
     }
 
-    printf("Listing of files:\n");
+    // Print table header
+    printf("%-25s %-15s %-25s\n", "Name", "Size (bytes)", "Created");
+
     do {
         // Print file details
-        printf("Name: %s\n", findData.cFileName);
-        printf("  Size: %I64u bytes\n", ((unsigned long long)findData.nFileSizeHigh * (MAXDWORD + 1)) + findData.nFileSizeLow); // 修改为%I64u
+        printf("%-25s %-15I64u ", findData.cFileName, ((unsigned long long)findData.nFileSizeHigh * (MAXDWORD + 1)) + findData.nFileSizeLow); // 修改为%I64u
         SYSTEMTIME sysTime;
         FileTimeToSystemTime(&findData.ftCreationTime, &sysTime);
-        printf("  Created: %02d/%02d/%d %02d:%02d:%02d\n", sysTime.wMonth, sysTime.wDay, sysTime.wYear,
+        printf("%02d/%02d/%d %02d:%02d:%02d\n", sysTime.wMonth, sysTime.wDay, sysTime.wYear,
                sysTime.wHour, sysTime.wMinute, sysTime.wSecond);
-        printf("  Attributes: ");
-        if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-            printf("Directory ");
-        } else {
-            printf("File ");
-        }
-        if (findData.dwFileAttributes & FILE_ATTRIBUTE_READONLY) {
-            printf("Read-only ");
-        } else {
-            printf("Read/Write ");
-        }
-        printf("\n\n");
     } while (FindNextFile(hFind, &findData) != 0);
 
     // Close the search handle
@@ -112,6 +96,12 @@ void openFile(char *filename) {
     ShellExecute(NULL, "open", filename, NULL, NULL, SW_SHOWNORMAL);
 }
 
+void changeDirectory(char *newDirectory) {
+    if (SetCurrentDirectory(newDirectory) == 0) {
+        printf("Error: Unable to change directory.\n");
+    }
+}
+
 int main() {
     char filename[50];
     int choice;
@@ -119,9 +109,11 @@ int main() {
     char command[256]; // 命令行输入缓冲区
     char cdCommand[256]; // 用于存储 cd 命令及其参数
 
+    printf("\nWelcome to ATP_Shell, the friendly interactive shell\n");
+    printf("Type help for instructions on how to use ATP_Shell\n");
+
     while (1) {
-        printf("\nWelcome to ATP_Shell, the friendly interactive shell\n");
-        printf("Type 'help' for instructions on how to use ATP_Shell\n");
+        printf("atp@ATP_Shell ~> "); // 打印提示符
         fgets(command, sizeof(command), stdin); // 从标准输入读取命令行
 
         // 检查用户输入的命令
