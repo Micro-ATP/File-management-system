@@ -76,11 +76,14 @@ void listFiles() {
     }
 
     // Print table header
-    printf("%-25s %-15s %-25s\n", "Name", "Size (bytes)", "Created");
+    printf("%-40s %-15s %-25s\n", "Name", "Size (bytes)", "Created");
+
+    // Print separator line
+    printf("-----------------------------------------------------------------------------\n");
 
     do {
         // Print file details
-        printf("%-25s %-15I64u ", findData.cFileName, ((unsigned long long)findData.nFileSizeHigh * (MAXDWORD + 1)) + findData.nFileSizeLow); // 修改为%I64u
+        printf("%-40s %-15I64u ", findData.cFileName, ((unsigned long long)findData.nFileSizeHigh * (MAXDWORD + 1)) + findData.nFileSizeLow); // 修改为%I64u
         SYSTEMTIME sysTime;
         FileTimeToSystemTime(&findData.ftCreationTime, &sysTime);
         printf("%02d/%02d/%d %02d:%02d:%02d\n", sysTime.wMonth, sysTime.wDay, sysTime.wYear,
@@ -90,6 +93,10 @@ void listFiles() {
     // Close the search handle
     FindClose(hFind);
 }
+
+
+
+
 
 
 void openFile(char *filename) {
