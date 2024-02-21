@@ -110,6 +110,7 @@ int main() {
 
     char command[256]; // 命令行输入缓冲区
     char cdCommand[256]; // 用于存储 cd 命令及其参数
+    char openCommand[256]; // 用于存储 open 命令及其参数
 
     char current_directory[MAX_PATH] = "C:\\"; // 设置当前目录为 "C:\"
 
@@ -135,8 +136,11 @@ int main() {
             listFiles();
         } else if (strcmp(command, "help\n") == 0) {
             help_log(); // 如果用户输入的是 "help" 命令，则显示帮助信息
+        } else if (sscanf(command, "open %s", openCommand) == 1) {
+            // 如果用户输入的是 "open <filename>" 命令，则打开文件
+            openFile(openCommand);
         } else {
-            // 如果用户输入的不是 cd、cd xxx、ls 或 help 命令，则按照原来的流程继续
+            // 如果用户输入的不是 cd、cd xxx、ls、help 或 open 命令，则按照原来的流程继续
             sscanf(command, "%d", &choice);
             switch (choice) {
                 case 2:
@@ -149,12 +153,12 @@ int main() {
                     scanf("%s", filename);
                     deleteFile(filename);
                     break;
-                case 4:
-                    printf("Enter filename to open: ");
-                    scanf("%s", filename);
-                    openFile(filename);
-                    break;
-                case 6:
+                // case 4:
+                //     printf("Enter filename to open: ");
+                //     scanf("%s", filename);
+                //     openFile(filename);
+                //     break;
+                case 0:
                     printf("Exiting...\n");
                     exit(0);
                 default:
