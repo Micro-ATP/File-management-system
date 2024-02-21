@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
+#include <E:\GitHub\File-management-system\C\help.h>
 
 void createFile(char *filename);
 void readFile(char *filename);
@@ -79,25 +80,19 @@ void listFiles() {
     printf("%-40s %-15s %-25s\n", "Name", "Size (bytes)", "Created");
 
     // Print separator line
-    printf("-----------------------------------------------------------------------------\n");
+    printf("===============================================================================\n");
 
     do {
         // Print file details
         printf("%-40s %-15I64u ", findData.cFileName, ((unsigned long long)findData.nFileSizeHigh * (MAXDWORD + 1)) + findData.nFileSizeLow); // 修改为%I64u
         SYSTEMTIME sysTime;
         FileTimeToSystemTime(&findData.ftCreationTime, &sysTime);
-        printf("%02d/%02d/%d %02d:%02d:%02d\n", sysTime.wMonth, sysTime.wDay, sysTime.wYear,
-               sysTime.wHour, sysTime.wMinute, sysTime.wSecond);
+        printf("%02d/%02d/%d %02d:%02d:%02d\n", sysTime.wMonth, sysTime.wDay, sysTime.wYear,sysTime.wHour, sysTime.wMinute, sysTime.wSecond);
     } while (FindNextFile(hFind, &findData) != 0);
 
     // Close the search handle
     FindClose(hFind);
 }
-
-
-
-
-
 
 void openFile(char *filename) {
     ShellExecute(NULL, "open", filename, NULL, NULL, SW_SHOWNORMAL);
@@ -120,7 +115,7 @@ int main() {
 
     SetCurrentDirectory(current_directory); // 设置当前目录
 
-    printf("\nWelcome to ATP_Shell, the friendly interactive shell\n");
+    printf("Welcome to ATP_Shell, the friendly interactive shell\n");
     printf("Type help for instructions on how to use ATP_Shell\n");
 
     while (1) {
@@ -129,14 +124,19 @@ int main() {
         fgets(command, sizeof(command), stdin); // 从标准输入读取命令行
 
         // 检查用户输入的命令
-        if (sscanf(command, "cd %s", cdCommand) == 1) {
+        if (strcmp(command, "cd\n") == 0) {
+            // 如果用户输入的是单独的 "cd" 命令，则更改目录为 "C:\"
+            SetCurrentDirectory("C:\\");
+        } else if (sscanf(command, "cd %s", cdCommand) == 1) {
             changeDirectory(cdCommand); // 如果用户输入的是 cd 命令，则更改目录
         } else if (strcmp(command, "ls\n") == 0) {
             // 如果用户输入的是 "ls" 命令，则列出文件
             printf("List of files:\n");
             listFiles();
+        } else if (strcmp(command, "help\n") == 0) {
+            help_log(); // 如果用户输入的是 "help" 命令，则显示帮助信息
         } else {
-            // 如果用户输入的不是 cd 或 ls 命令，则按照原来的流程继续
+            // 如果用户输入的不是 cd、cd xxx、ls 或 help 命令，则按照原来的流程继续
             sscanf(command, "%d", &choice);
             switch (choice) {
                 case 2:
