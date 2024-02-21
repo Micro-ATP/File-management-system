@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <windows.h>
 #include <E:\GitHub\File-management-system\C\help.h>
+#include <E:\GitHub\File-management-system\C\neofetch.h>
 
 void createFile(char *filename);
 void readFile(char *filename);
@@ -108,43 +109,46 @@ int main() {
     char filename[50];
     int choice;
 
-    char command[256]; // 命令行输入缓冲区
-    char cdCommand[256]; // 用于存储 cd 命令及其参数
-    char openCommand[256]; // 用于存储 open 命令及其参数
-    char rmCommand[256]; // 用于存储 rm 命令及其参数
+    char command[256]; // Command line input buffer
+    char cdCommand[256]; // Buffer for storing cd command and its arguments
+    char openCommand[256]; // Buffer for storing open command and its arguments
+    char rmCommand[256]; // Buffer for storing rm command and its arguments
+    char neofetchCommand[256]; // Buffer for storing neofetch command and its arguments
+    
+    char current_directory[MAX_PATH] = "C:\\"; // Set the current directory to "C:\"
 
-    char current_directory[MAX_PATH] = "C:\\"; // 设置当前目录为 "C:\"
-
-    SetCurrentDirectory(current_directory); // 设置当前目录
+    SetCurrentDirectory(current_directory); // Set the current directory
 
     printf("Welcome to ATP_Shell, the friendly interactive shell\n");
     printf("Type help for instructions on how to use ATP_Shell\n");
 
     while (1) {
-        GetCurrentDirectory(MAX_PATH, current_directory); // 获取当前目录
-        printf("atp@ATP_Shell ~ %s ~> ", current_directory); // 打印提示符，包含当前目录
-        fgets(command, sizeof(command), stdin); // 从标准输入读取命令行
+        GetCurrentDirectory(MAX_PATH, current_directory); // Get the current directory
+        printf("atp@ATP_Shell ~ %s ~> ", current_directory); // Print the prompt including the current directory
+        fgets(command, sizeof(command), stdin); // Read the command line from standard input
 
-        // 检查用户输入的命令
+        // Check the user input command
         if (strcmp(command, "cd\n") == 0) {
-            // 如果用户输入的是单独的 "cd" 命令，则更改目录为 "C:\"
+            // If the user input is just "cd" command, then change directory to "C:\"
             SetCurrentDirectory("C:\\");
         } else if (sscanf(command, "cd %s", cdCommand) == 1) {
-            changeDirectory(cdCommand); // 如果用户输入的是 cd 命令，则更改目录
+            changeDirectory(cdCommand); // If the user input is cd command, then change directory
         } else if (strcmp(command, "ls\n") == 0) {
-            // 如果用户输入的是 "ls" 命令，则列出文件
+            // If the user input is "ls" command, then list files
             printf("List of files:\n");
             listFiles();
         } else if (strcmp(command, "help\n") == 0) {
-            help_log(); // 如果用户输入的是 "help" 命令，则显示帮助信息
+            help_log(); // If the user input is "help" command, then display help information
         } else if (sscanf(command, "open %s", openCommand) == 1) {
-            // 如果用户输入的是 "open <filename>" 命令，则打开文件
+            // If the user input is "open <filename>" command, then open the file
             openFile(openCommand);
         } else if (sscanf(command, "rm -f %s", rmCommand) == 1) {
-            // 如果用户输入的是 "rm -f <filename>" 命令，则删除文件
+            // If the user input is "rm -f <filename>" command, then delete the file
             deleteFile(rmCommand);
+        } else if (strstr(command, "neofetch") != NULL) {
+            neofetch_opt(); // If the user input is "neofetch" command, then display system information
         } else {
-            // 如果用户输入的不是 cd、cd xxx、ls、help、open 或 rm 命令，则按照原来的流程继续
+            // If the user input is not cd, cd xxx, ls, help, open, or rm command, then proceed with the original flow
             sscanf(command, "%d", &choice);
             switch (choice) {
                 case 2:
