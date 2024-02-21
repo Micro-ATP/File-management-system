@@ -1,2 +1,3 @@
 pyinstaller --onefile .\main.py
 pyinstaller -D main.py
+pyinstaller -i E:\GitHub\File-management-system\ico\ATP_Shell.ico --onefile .\main.py
