@@ -1,6 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h> // Windows-specific header file
+#include <windows.h>
+
+void createFile(char *filename);
+void readFile(char *filename);
+void writeFile(char *filename);
+void deleteFile(char *filename);
+void listFiles();
+void openFile(char *filename);
 
 void createFile(char *filename) {
     FILE *file = fopen(filename, "w");
@@ -52,8 +59,48 @@ void deleteFile(char *filename) {
 }
 
 void listFiles() {
-    system("dir");
+    WIN32_FIND_DATA findData;
+    HANDLE hFind = INVALID_HANDLE_VALUE;
+    TCHAR searchPath[MAX_PATH];
+
+    // Specify the search path
+    GetCurrentDirectory(MAX_PATH, searchPath);
+    strcat_s(searchPath, MAX_PATH, "\\*"); // 使用strcat_s
+
+    // Find the first file in the directory
+    hFind = FindFirstFile(searchPath, &findData);
+    if (hFind == INVALID_HANDLE_VALUE) {
+        printf("Error: Unable to find files.\n");
+        return;
+    }
+
+    printf("Listing of files:\n");
+    do {
+        // Print file details
+        printf("Name: %s\n", findData.cFileName);
+        printf("  Size: %I64u bytes\n", ((unsigned long long)findData.nFileSizeHigh * (MAXDWORD + 1)) + findData.nFileSizeLow); // 修改为%I64u
+        SYSTEMTIME sysTime;
+        FileTimeToSystemTime(&findData.ftCreationTime, &sysTime);
+        printf("  Created: %02d/%02d/%d %02d:%02d:%02d\n", sysTime.wMonth, sysTime.wDay, sysTime.wYear,
+               sysTime.wHour, sysTime.wMinute, sysTime.wSecond);
+        printf("  Attributes: ");
+        if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+            printf("Directory ");
+        } else {
+            printf("File ");
+        }
+        if (findData.dwFileAttributes & FILE_ATTRIBUTE_READONLY) {
+            printf("Read-only ");
+        } else {
+            printf("Read/Write ");
+        }
+        printf("\n\n");
+    } while (FindNextFile(hFind, &findData) != 0);
+
+    // Close the search handle
+    FindClose(hFind);
 }
+
 
 void openFile(char *filename) {
     ShellExecute(NULL, "open", filename, NULL, NULL, SW_SHOWNORMAL);
