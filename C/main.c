@@ -113,7 +113,7 @@ int main() {
     char cdCommand[256]; // Buffer for storing cd command and its arguments
     char openCommand[256]; // Buffer for storing open command and its arguments
     char rmCommand[256]; // Buffer for storing rm command and its arguments
-    char neofetchCommand[256]; // Buffer for storing neofetch command and its arguments
+    char tchCommand[256]; // Buffer for storing touch command and its arguments
     
     char current_directory[MAX_PATH] = "C:\\"; // Set the current directory to "C:\"
 
@@ -147,6 +147,8 @@ int main() {
             deleteFile(rmCommand);
         } else if (strstr(command, "neofetch") != NULL) {
             neofetch_opt(); // If the user input is "neofetch" command, then display system information
+        } else if (sscanf(command, "touch %s", tchCommand) == 1) {
+            createFile(tchCommand);
         } else {
             // If the user input is not cd, cd xxx, ls, help, open, or rm command, then proceed with the original flow
             sscanf(command, "%d", &choice);
@@ -156,16 +158,16 @@ int main() {
                     scanf("%s", filename);
                     createFile(filename);
                     break;
-                case 3:
-                    printf("Enter filename to delete: ");
-                    scanf("%s", filename);
-                    deleteFile(filename);
-                    break;
-                case 4:
-                    printf("Enter filename to open: ");
-                    scanf("%s", filename);
-                    openFile(filename);
-                    break;
+                // case 3:
+                //     printf("Enter filename to delete: ");
+                //     scanf("%s", filename);
+                //     deleteFile(filename);
+                //     break;
+                // case 4:
+                //     printf("Enter filename to open: ");
+                //     scanf("%s", filename);
+                //     openFile(filename);
+                //     break;
                 case 0:
                     printf("Exiting...\n");
                     exit(0);
