@@ -9,6 +9,12 @@ void deleteFile(char *filename);
 void listFiles();
 void openFile(char *filename);
 
+void changeDirectory(char *newDirectory) {
+    if (SetCurrentDirectory(newDirectory) == 0) {
+        printf("Error: Unable to change directory.\n");
+    }
+}
+
 void createFile(char *filename) {
     FILE *file = fopen(filename, "w");
     if (file == NULL) {
@@ -110,54 +116,46 @@ int main() {
     char filename[50];
     int choice;
 
-    while (1) {
-        printf("\nSimple File Management System\n");
-        printf("1. Create File\n");
-        printf("2. Read File\n");
-        printf("3. Write to File\n");
-        printf("4. Delete File\n");
-        printf("5. List Files\n");
-        printf("6. Open File\n");
-        printf("7. Exit\n");
-        printf("Enter your choice: ");
-        scanf("%d", &choice);
+    char command[256]; // 命令行输入缓冲区
+    char cdCommand[256]; // 用于存储 cd 命令及其参数
 
-        switch (choice) {
-            case 1:
-                printf("Enter filename to create: ");
-                scanf("%s", filename);
-                createFile(filename);
-                break;
-            case 2:
-                printf("Enter filename to read: ");
-                scanf("%s", filename);
-                readFile(filename);
-                break;
-            case 3:
-                printf("Enter filename to write: ");
-                scanf("%s", filename);
-                getchar(); // Consume newline character left in the buffer
-                writeFile(filename);
-                break;
-            case 4:
-                printf("Enter filename to delete: ");
-                scanf("%s", filename);
-                deleteFile(filename);
-                break;
-            case 5:
-                printf("List of files:\n");
-                listFiles();
-                break;
-            case 6:
-                printf("Enter filename to open: ");
-                scanf("%s", filename);
-                openFile(filename);
-                break;
-            case 7:
-                printf("Exiting...\n");
-                exit(0);
-            default:
-                printf("Invalid choice. Please enter a valid option.\n");
+    while (1) {
+        printf("\nWelcome to ATP_Shell, the friendly interactive shell\n");
+        printf("Type 'help' for instructions on how to use ATP_Shell\n");
+        fgets(command, sizeof(command), stdin); // 从标准输入读取命令行
+
+        // 检查用户输入的命令
+        if (sscanf(command, "cd %s", cdCommand) == 1) {
+            changeDirectory(cdCommand); // 如果用户输入的是 cd 命令，则更改目录
+        } else if (strcmp(command, "ls\n") == 0) {
+            // 如果用户输入的是 "ls" 命令，则列出文件
+            printf("List of files:\n");
+            listFiles();
+        } else {
+            // 如果用户输入的不是 cd 或 ls 命令，则按照原来的流程继续
+            sscanf(command, "%d", &choice);
+            switch (choice) {
+                case 2:
+                    printf("Enter filename to create: ");
+                    scanf("%s", filename);
+                    createFile(filename);
+                    break;
+                case 3:
+                    printf("Enter filename to delete: ");
+                    scanf("%s", filename);
+                    deleteFile(filename);
+                    break;
+                case 4:
+                    printf("Enter filename to open: ");
+                    scanf("%s", filename);
+                    openFile(filename);
+                    break;
+                case 6:
+                    printf("Exiting...\n");
+                    exit(0);
+                default:
+                    printf("Invalid choice. Please enter a valid option.\n");
+            }
         }
     }
 
