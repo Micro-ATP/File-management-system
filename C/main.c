@@ -212,16 +212,6 @@ int main() {
                     scanf("%s", filename);
                     createFile(filename);
                     break;
-                // case 3:
-                //     printf("Enter filename to delete: ");
-                //     scanf("%s", filename);
-                //     deleteFile(filename);
-                //     break;
-                // case 4:
-                //     printf("Enter filename to open: ");
-                //     scanf("%s", filename);
-                //     openFile(filename);
-                //     break;
                 case 0:
                     printf("Exiting...\n");
                     exit(0);

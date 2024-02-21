@@ -9,15 +9,15 @@ def help_log():
             rm -f <file_name> - Delete a file
             open <file_name> - Open a file
             cd <directory> - Change the current directory
-            whereis <file_name> - Search for a file
-            everything <file_name>- Search for files using Everything
+            (unaccessable)whereis <file_name> - Search for a file
+            (unaccessable)everything <file_name>- Search for files using Everything
             neofetch - Display system information
-            fetchsoft - List all installed software
-            unsoft <software_name> - Uninstall a software
-            clear - Clear the screen
-            diskpart - Open diskpart
-            chkssd - Check SSD health
-            quit - Exit the shell
-            exit - Exit the shell
+            (unaccessable)fetchsoft - List all installed software
+            (unaccessable)unsoft <software_name> - Uninstall a software
+            (unaccessable)clear - Clear the screen
+            (unaccessable)diskpart - Open diskpart
+            (unaccessable)chkssd - Check SSD health
+            (unaccessable)quit - Exit the shell
+            (unaccessable)exit - Exit the shell
             help - Display this help message
             """)
