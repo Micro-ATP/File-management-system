@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <windows.h> // Windows-specific header file
 
 void createFile(char *filename) {
     FILE *file = fopen(filename, "w");
@@ -51,7 +52,11 @@ void deleteFile(char *filename) {
 }
 
 void listFiles() {
-    system("ls -l");
+    system("dir");
+}
+
+void openFile(char *filename) {
+    ShellExecute(NULL, "open", filename, NULL, NULL, SW_SHOWNORMAL);
 }
 
 int main() {
@@ -65,7 +70,8 @@ int main() {
         printf("3. Write to File\n");
         printf("4. Delete File\n");
         printf("5. List Files\n");
-        printf("6. Exit\n");
+        printf("6. Open File\n");
+        printf("7. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -95,7 +101,12 @@ int main() {
                 printf("List of files:\n");
                 listFiles();
                 break;
-            case 0:
+            case 6:
+                printf("Enter filename to open: ");
+                scanf("%s", filename);
+                openFile(filename);
+                break;
+            case 7:
                 printf("Exiting...\n");
                 exit(0);
             default:
