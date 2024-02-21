@@ -109,11 +109,16 @@ int main() {
     char command[256]; // 命令行输入缓冲区
     char cdCommand[256]; // 用于存储 cd 命令及其参数
 
+    char current_directory[MAX_PATH] = "C:\\"; // 设置当前目录为 "C:\"
+
+    SetCurrentDirectory(current_directory); // 设置当前目录
+
     printf("\nWelcome to ATP_Shell, the friendly interactive shell\n");
     printf("Type help for instructions on how to use ATP_Shell\n");
 
     while (1) {
-        printf("atp@ATP_Shell ~> "); // 打印提示符
+        GetCurrentDirectory(MAX_PATH, current_directory); // 获取当前目录
+        printf("atp@ATP_Shell ~ %s ~> ", current_directory); // 打印提示符，包含当前目录
         fgets(command, sizeof(command), stdin); // 从标准输入读取命令行
 
         // 检查用户输入的命令
