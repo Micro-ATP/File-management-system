@@ -157,7 +157,7 @@ int main() {
     char openCommand[256]; // Buffer for storing open command and its arguments
     char rmCommand[256]; // Buffer for storing rm command and its arguments
     char tchCommand[256]; // Buffer for storing touch command and its arguments
-    char wheisCommand[256];
+    char wheisCommand[256]; // Buffer for storing whereis command and its arguments
 
     char current_directory[MAX_PATH] = "C:\\"; // Set the current directory to "C:\"
 
