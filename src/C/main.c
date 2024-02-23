@@ -98,6 +98,8 @@ int main() {
             } else {
                 printf("Error: Failed to uninstall software '%s'.\n", unsoftCommand);
             }
+        } else if (strcmp(command, "diskpart\n") == 0) {
+            system("diskpart");
         } else if (strcmp(command, "exit && quit") == 0) {
             printf("Exiting...\n");
             exit(0);

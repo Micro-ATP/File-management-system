@@ -17,7 +17,7 @@ void help_log() {
     printf("        fetchsoft - List all installed software\n");
     printf("        unsoft <software_name> - Uninstall a software\n");
     printf("        clear - Clear the screen\n");
-    printf("        (unusable)diskpart - Open diskpart\n");
+    printf("        diskpart - Open diskpart\n");
     printf("        (unusable)chkssd - Check SSD health\n");
     printf("        quit - Exit the shell\n");
     printf("        exit - Exit the shell\n");
