@@ -5,7 +5,7 @@
 #include <E:\GitHub\File-management-system\src\C\neofetch.h>
 #include <E:\GitHub\File-management-system\src\C\file_operations.h>
 #include <E:\GitHub\File-management-system\src\C\file_list.h>
-#include <E:\GitHub\File-management-system\src\C\uninstall_soft.h>
+#include <E:\GitHub\File-management-system\src\C\soft.h>
 
 void createFile(char *filename);
 void readFile(char *filename);
@@ -16,7 +16,7 @@ void openFile(char *filename);
 void changeDirectory(char *newDirectory);
 void help_log();
 void neofetch_opt();
-int uninstallSoftware(char *softwareName);
+
 
 void changeDirectory(char *newDirectory) {
     if (SetCurrentDirectory(newDirectory) == 0) {
@@ -26,7 +26,16 @@ void changeDirectory(char *newDirectory) {
 
 
 int main() {
-    // int choice;
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFOEX csbi;
+    csbi.cbSize = sizeof(CONSOLE_SCREEN_BUFFER_INFOEX);
+    // 获取当前控制台的属性
+    GetConsoleScreenBufferInfoEx(hConsole, &csbi);
+    // 设置新的底色
+    csbi.ColorTable[0] = RGB(48, 10, 36); // 这里设置底色为蓝色，可以根据需要自行修改
+    // 应用属性更改
+    SetConsoleScreenBufferInfoEx(hConsole, &csbi);
+
 
     char command[256]; // Command line input buffer
     char cdCommand[256]; // Buffer for storing cd command and its arguments
@@ -81,9 +90,10 @@ int main() {
             system("cls");
         } else if (strcmp(command, "fetchsoft\n") == 0) {
             // If the user input is "fetchsoft" command, then fetch software list
-            system("wmic product get name");
+            fetch_installed_software();
+            fetch_installed_software_wmic();
         } else if (sscanf(command, "unsoft %[^\n]", unsoftCommand) == 1) {
-            if (uninstallSoftware(unsoftCommand)) {
+            if (uninstallSoftware((const char*)unsoftCommand)) {
                 printf("Software '%s' uninstalled successfully.\n", unsoftCommand);
             } else {
                 printf("Error: Failed to uninstall software '%s'.\n", unsoftCommand);
