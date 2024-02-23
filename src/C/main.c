@@ -5,7 +5,7 @@
 #include <E:\GitHub\File-management-system\src\C\neofetch.h>
 #include <E:\GitHub\File-management-system\src\C\file_operations.h>
 #include <E:\GitHub\File-management-system\src\C\file_list.h>
-// #include <E:\GitHub\File-management-system\src\C\neofetch.h>
+// #include <>
 
 void createFile(char *filename);
 void readFile(char *filename);
@@ -14,7 +14,6 @@ void deleteFile(char *filename);
 void listFiles();
 void openFile(char *filename);
 void changeDirectory(char *newDirectory);
-// void searchFiles(char *target_name);
 void help_log();
 void neofetch_opt();
 
@@ -23,7 +22,6 @@ void changeDirectory(char *newDirectory) {
         printf("Error: Unable to change directory.\n");
     }
 }
-
 
 
 int main() {
@@ -77,6 +75,8 @@ int main() {
             neofetch_opt(); // If the user input is "neofetch" command, then display system information
         } else if (sscanf(command, "touch %s", tchCommand) == 1) {
             createFile(tchCommand);
+        } else if (strcmp(command, "clear\n") == 0) {
+            system("cls");
         } else if (strcmp(command, "exit && quit") == 0) {
             printf("Exiting...\n");
             exit(0);

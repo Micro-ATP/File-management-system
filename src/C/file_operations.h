@@ -56,5 +56,4 @@ void openFile(char *filename) {
 }
 
 
-
 #endif // file_operations_H
