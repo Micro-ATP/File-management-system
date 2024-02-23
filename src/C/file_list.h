@@ -1,70 +1,39 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <sys/stat.h>
-#include <dirent.h>
-#include <time.h>
+#include <windows.h>
+#ifndef file_list_H
+#define file_list_H
 
-char *convert_size(off_t size) {
-    static char buffer[20];
-    if (size < 1024) {
-        sprintf(buffer, "%lld B", (long long)size);
-    } else if (size < 1024 * 1024) {
-        sprintf(buffer, "%.2f KB", (double)size / 1024);
-    } else if (size < 1024 * 1024 * 1024) {
-        sprintf(buffer, "%.2f MB", (double)size / (1024 * 1024));
-    } else {
-        sprintf(buffer, "%.2f GB", (double)size / (1024 * 1024 * 1024));
-    }
-    return buffer;
-}
+void listFiles() {
+    WIN32_FIND_DATA findData;
+    HANDLE hFind = INVALID_HANDLE_VALUE;
+    TCHAR searchPath[MAX_PATH];
 
-char *get_permissions(const char *file_path) {
-    struct stat stat_info;
-    if (stat(file_path, &stat_info) == -1) {
-        return NULL;
-    }
-    static char permissions[11];
-    snprintf(permissions, sizeof(permissions), "%o", stat_info.st_mode & 0777);
-    return permissions;
-}
+    // Specify the search path
+    GetCurrentDirectory(MAX_PATH, searchPath);
+    strcat_s(searchPath, MAX_PATH, "\\*"); // 使用strcat_s
 
-void list_files(const char *directory) {
-    DIR *dir = opendir(directory);
-    if (!dir) {
-        perror("Error opening directory");
+    // Find the first file in the directory
+    hFind = FindFirstFile(searchPath, &findData);
+    if (hFind == INVALID_HANDLE_VALUE) {
+        printf("Error: Unable to find files.\n");
         return;
     }
 
-    printf("%-30s %-15s %-10s %-30s\n", "Name", "Size", "Permissions", "Modification Time");
-    printf("%s\n", "================================================================================");
-    
-    struct dirent *entry;
-    while ((entry = readdir(dir)) != NULL) {
-        if (entry->d_type == DT_REG || entry->d_type == DT_DIR) {
-            char item_path[PATH_MAX];
-            snprintf(item_path, sizeof(item_path), "%s/%s", directory, entry->d_name);
-            
-            struct stat stat_info;
-            if (stat(item_path, &stat_info) == -1) {
-                perror("Error getting file information");
-                continue;
-            }
+    // Print table header
+    printf("%-40s %-15s %-25s\n", "Name", "Size (bytes)", "Created");
 
-            char *size = convert_size(stat_info.st_size);
-            char *permissions = get_permissions(item_path);
-            struct tm *modification_time = localtime(&stat_info.st_mtime);
+    // Print separator line
+    printf("===============================================================================\n");
 
-            char time_str[30];
-            strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", modification_time);
+    do {
+        // Print file details
+        printf("%-40s %-15I64u ", findData.cFileName, ((unsigned long long)findData.nFileSizeHigh * (MAXDWORD + 1)) + findData.nFileSizeLow); // 修改为%I64u
+        SYSTEMTIME sysTime;
+        FileTimeToSystemTime(&findData.ftCreationTime, &sysTime);
+        printf("%02d/%02d/%d %02d:%02d:%02d\n", sysTime.wMonth, sysTime.wDay, sysTime.wYear,sysTime.wHour, sysTime.wMinute, sysTime.wSecond);
+    } while (FindNextFile(hFind, &findData) != 0);
 
-            printf("%-30s %-15s %-10s %-30s\n", entry->d_name, size, permissions, time_str);
-        }
-    }
-    closedir(dir);
+    // Close the search handle
+    FindClose(hFind);
 }
-
-int main() {
-    const char *directory = "C:\\";
-    list_files(directory);
-    return 0;
-}
+# endif // file_list_H

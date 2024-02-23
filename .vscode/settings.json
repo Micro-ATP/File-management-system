@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "help.h": "c",
-        "file_list.h": "c"
+        "file_list.h": "c",
+        "neofetch.h": "c"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }
