@@ -5,7 +5,7 @@
 #include <E:\GitHub\File-management-system\src\C\neofetch.h>
 #include <E:\GitHub\File-management-system\src\C\file_operations.h>
 #include <E:\GitHub\File-management-system\src\C\file_list.h>
-// #include <>
+#include <E:\GitHub\File-management-system\src\C\uninstall_soft.h>
 
 void createFile(char *filename);
 void readFile(char *filename);
@@ -16,6 +16,7 @@ void openFile(char *filename);
 void changeDirectory(char *newDirectory);
 void help_log();
 void neofetch_opt();
+int uninstallSoftware(char *softwareName);
 
 void changeDirectory(char *newDirectory) {
     if (SetCurrentDirectory(newDirectory) == 0) {
@@ -33,6 +34,7 @@ int main() {
     char rmCommand[256]; // Buffer for storing rm command and its arguments
     char tchCommand[256]; // Buffer for storing touch command and its arguments
     // char wheisCommand[256]; // Buffer for storing whereis command and its arguments
+    char unsoftCommand[256]; // Buffer for storing uninstall software command and its arguments
 
     char current_directory[MAX_PATH] = "C:\\"; // Set the current directory to "C:\"
 
@@ -77,6 +79,15 @@ int main() {
             createFile(tchCommand);
         } else if (strcmp(command, "clear\n") == 0) {
             system("cls");
+        } else if (strcmp(command, "fetchsoft\n") == 0) {
+            // If the user input is "fetchsoft" command, then fetch software list
+            system("wmic product get name");
+        } else if (sscanf(command, "unsoft %[^\n]", unsoftCommand) == 1) {
+            if (uninstallSoftware(unsoftCommand)) {
+                printf("Software '%s' uninstalled successfully.\n", unsoftCommand);
+            } else {
+                printf("Error: Failed to uninstall software '%s'.\n", unsoftCommand);
+            }
         } else if (strcmp(command, "exit && quit") == 0) {
             printf("Exiting...\n");
             exit(0);

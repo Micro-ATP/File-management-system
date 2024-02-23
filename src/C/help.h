@@ -11,14 +11,14 @@ void help_log() {
     printf("        rm -f <file_name> - Delete a file\n");
     printf("        open <file_name> - Open a file\n");
     printf("        cd <directory> - Change the current directory\n");
-    printf("        whereis <file_name> - Search for a file\n");
-    printf("        everything <file_name> - Search for files using Everything\n");
+    printf("        (unusable)whereis <file_name> - Search for a file\n");
+    printf("        (unusable)everything <file_name> - Search for files using Everything\n");
     printf("        neofetch - Display system information\n");
     printf("        fetchsoft - List all installed software\n");
     printf("        unsoft <software_name> - Uninstall a software\n");
     printf("        clear - Clear the screen\n");
-    printf("        diskpart - Open diskpart\n");
-    printf("        chkssd - Check SSD health\n");
+    printf("        (unusable)diskpart - Open diskpart\n");
+    printf("        (unusable)chkssd - Check SSD health\n");
     printf("        quit - Exit the shell\n");
     printf("        exit - Exit the shell\n");
     printf("        help - Display this help message\n");
