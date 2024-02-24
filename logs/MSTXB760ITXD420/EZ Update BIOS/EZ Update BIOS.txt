@@ -1,0 +1,48 @@
+【English】
+Reminder: Updating the BIOS is risky, please be cautious. During the execution of the BIOS update program, please do not interrupt the update or power off and restart, otherwise the motherboard will not turn on.
+
+Steps to update BIOS:
+
+1. First confirm whether the original BIOS of the computer supports the EZ update function by pressing the F8 key under the BIOS. If not, please use the method of updating the BIOS under the shell;
+
+2. Copy the BIOS file to the root directory of the U disk in FAT/FAT32/NTFS format;
+
+3. Press the DEL key to enter the BIOS after turning on the computer, first check that the BIOS/FLASH write protection function in the BIOS is disabled by default, if not, please close it, press F10 to save and restart, and then enter the BIOS interface;
+
+4. Insert the U disk with copied BIOS into the USB interface of the motherboard, press F8 shortcut key to enter Select Storage Device and select the U disk device with BIOS file;
+
+5. After entering the U disk mobile device, please select the BIOS file that needs to be updated (the BIOS file that matches the model must be used, and the BIOS file of other models cannot be matched and updated, and an error will be prompted);
+
+6. After the BIOS file is matched correctly, you will need to confirm whether the operation is performed before updating, Yes to confirm the update, N0 to give up the update;
+
+7. After updating the BIOS, during the process of updating the BIOS, do not shut down or restart the computer to interrupt the update, otherwise the BIOS update will be incomplete, and the motherboard cannot be powered on;
+
+8. After the update is completed, it will prompt "Update BIOS Completed" to indicate that the update is complete. After confirming OK, the computer will be restarted to complete the BIOS update;
+
+9. After updating the BIOS, it is recommended to cut off the AC power supply for the mainboard, clear the CMOS information of the mainboard, then power on and enter the BIOS, press F9 to load the optimized value, press F10 to save and restart, and then use it normally.
+    
+
+【中文简体】
+温馨提示：更新BIOS有风险，请慎重，更新BIOS程序执行期间，请勿打断更新或断电重启，否则导致主板不亮机。
+
+更新BIOS步骤：
+
+一、先确认计算机原有BIOS是否支持BIOS下按F8键支持EZ update 功能，若不支持请使用shell下更新BIOS的方法；
+
+二、将BIOS文件拷贝到FAT/FAT32/NTFS格式的U盘根目录下；
+
+三、开机按DEL键进入BIOS，先查看BIOS中的BIOS/FLASH write protection功能是默认关闭，若未关闭，请关闭后按F10保存重启再进到BIOS界面；
+
+四、在主板USB接口插入拷贝好BIOS的U盘，按F8快捷键进入Select Storage Device中选择拥有BIOS文件的U盘设备；
+
+五、进入U盘移动设备后，请选择需要更新的BIOS文件（必须使用该机型匹配的BIOS文件，其他机型的BIOS文件无法匹配更新，会提示错误）；
+
+六、BIOS文件匹配正确后，会在更新前需要确认操作是否执行，Yes确认更新，N0放弃更新； 
+
+七、执行更新BIOS后，在更新BIOS过程中，切勿关闭或重启计算机中断更新，否则会导致BIOS更新不完全，主板无法上电亮机；
+
+八、更新完成后，会提示“Update BIOS Completed”表示更新完成，确认OK后会重启计算机，完成BIOS更新；
+
+九、更新完BIOS后的主板建议断掉AC供电，清除主板的CMOS信息后，再上电开机进BIOS，按F9加载优化值，按F10保存重启后再正常使用。        
+
+                                                                                                                        

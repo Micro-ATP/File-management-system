@@ -1,0 +1,12 @@
+FS0:
+FS1:
+FS2:
+FS3:
+FS4:
+FS5:
+FS6:
+FS7:
+CD EFI\BOOT
+Fpt -f MSTerminatorB760ITXD4_E2.0D_01162024.ROM
+
+:endif
