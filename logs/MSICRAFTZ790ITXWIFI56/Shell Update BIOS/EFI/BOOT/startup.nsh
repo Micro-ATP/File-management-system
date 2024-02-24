@@ -1,0 +1,10 @@
+FS0:
+FS1:
+FS2:
+FS3:
+FS4:
+FS5:
+FS6:
+FS7:
+CD EFI\BOOT
+Fpt.efi -F MS-iCraft-Z790ITX-WIFI-H5.6G.ROM
